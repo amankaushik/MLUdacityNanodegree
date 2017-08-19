@@ -11813,7 +11813,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries necessary for this project</span>
@@ -11931,7 +11931,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Total number of records</span>
@@ -12001,7 +12001,7 @@ Percentage of individuals making more than $50,000: 24.78%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Split the data into features and target label</span>
@@ -12341,7 +12341,7 @@ AIVfT+kAAAAsSURBVG0CAgAAaBMQAABAm4AAAADaBAQAANAmIAAAgDYBAQAAtAkIAACg7Q67WtJh
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Log-transform the skewed features</span>
@@ -12675,7 +12675,7 @@ WrOAkCRJktSaBYQkSZKk1iwgJEmSJLVmASFJkiSptf8PfCqjfVgKCIwAAAAASUVORK5CYII=
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import sklearn.preprocessing.StandardScaler</span>
@@ -14146,12 +14146,9 @@ Based on the evaluation,</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong><br>
-The final model uses a DecisionTreeClassifier, which takes the donation data as input and creates a "questionnaire" based on the that data - this is the <strong>training</strong> of the model.</p>
-<p>A decision tree is used to create a training model which be can used to predict target variable(in this case the <strong>income</strong> variable) by learning decision rules inferred from prior data(training data).
-The "best" attribute is taken as the "root" node of this tree structure, each internal node of the tree corresponds to an attribute, and each leaf node corresponds to a target variable.</p>
-<p>In decision trees, for predicting a target variable for a record we start from the root of the tree and compare the values of the root attribute with record’s attribute. On the basis of comparison, we follow the branch corresponding to that value and jump to the next node. We continue comparing the record’s attribute values with other internal nodes of the tree until we reach a leaf node with predicted target value.</p>
-<p>The attribute selection process, i.e, finding the "best" attribute for each level of the selection process is based on some statistical formula. We apply this formula to each attribute and choose the one that has the best value.</p>
-<p>For every node, the entire structure to the left of the node will have one value (lets say 'X') for the attribute in that node and the structure to the right will have another value (lets say 'Y') for the attribute in that node. This condition is valid for every level (every node) of the tree structure.</p>
+The final model uses a DecisionTreeClassifier, which takes the donation data as input and creates a "questionnaire" based on the that data - this is the <strong>training</strong> of the model.<br>
+The model makes a classification for the new (unseen) data by "putting" that data through that "questionnaire" (based on how the data "answers" those questions - this is the <strong>prediction</strong> made by the model.<br>
+A DecisonTreeClassifier will take the data and try to split the data on a feature that best divides the entire dataset (preferably in half). This process is iterative and goes on (with the remaining features) until a path to labels is created via these splits.</p>
 
 </div>
 </div>
