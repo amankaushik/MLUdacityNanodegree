@@ -43,6 +43,7 @@ class LearningAgent(Agent):
             self.alpha = 0.0
         else: 
             self.epsilon = self.alpha ** self.trial_num
+            # self.alpha = self.alpha - 0.01
             # self.epsilon = math.exp(-1 * self.alpha * self.trial_num)
         # Update epsilon using a decay function of your choice
         # Update additional class parameters as needed
@@ -75,7 +76,7 @@ class LearningAgent(Agent):
         # state = (waypoint, inputs['light'], inputs['left']) # D,D
         # state = (waypoint, inputs['light'], inputs['right']) # A+, C
         # state = (waypoint, inputs['light'], inputs['right'], inputs['oncoming']) #F, C
-        state = (waypoint, inputs['light'], inputs['oncoming'])
+        state = (waypoint, inputs['light'], inputs['oncoming'], inputs['left'])
         # state = (waypoint, inputs['right'], inputs['oncoming']) # F,F
         # state = (waypoint, inputs['light'], inputs['oncoming'], inputs['left']) #A, F
 
@@ -105,7 +106,7 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
-        if not self.Q.has_key(state):
+        if self.learning and not self.Q.has_key(state):
             self.Q[state] = {action:0.0 for action in self.valid_actions}
 
         return
@@ -118,14 +119,17 @@ class LearningAgent(Agent):
         # Set the agent state and default action
         self.state = state
         self.next_waypoint = self.planner.next_waypoint()
-        if self.epsilon > random.random():
+        if not self.learning:
             action = random.choice(self.valid_actions)
         else:
-            state_def = self.Q[state]
-            max_val = self.get_maxQ(state)
-            actions = [action if value == max_val else -1 for action, value in state_def.iteritems()]
-            actions = filter(lambda action: action != -1, actions)
-            action = random.choice(actions)
+            if self.epsilon > random.random():
+                action = random.choice(self.valid_actions)
+            else:
+                state_def = self.Q[state]
+                max_val = self.get_maxQ(state)
+                actions = [action if value == max_val else -1 for action, value in state_def.iteritems()]
+                actions = filter(lambda action: action != -1, actions)
+                action = random.choice(actions)
 
         ########### 
         ## TO DO ##
@@ -147,7 +151,11 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-        self.Q[state][action] = self.alpha * reward + ((1- self.alpha) * self.get_maxQ(state))
+        if self.learning:
+            # self.Q[state][action] = self.alpha * reward + ((1- self.alpha) * self.get_maxQ(state))
+            self.Q[state][action] = self.Q[state][action] +\
+                    self.alpha * (reward - self.Q[state][action])
+                    
 
         return
 
@@ -184,7 +192,8 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent, learning=True, alpha=0.918, epsilon=0.292)
+    # agent = env.create_agent(LearningAgent, learning=True, alpha=0.918, epsilon=0.292)
+    agent = env.create_agent(LearningAgent, learning=True, alpha=0.918, epsilon=0.092)
     
     ##############
     # Follow the driving agent
@@ -206,7 +215,7 @@ def run():
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=50, tolerance=0.0001)
+    sim.run(n_test=10, tolerance=0.0001)
 
 
 if __name__ == '__main__':
